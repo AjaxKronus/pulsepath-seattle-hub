@@ -84,7 +84,7 @@ export default function ComparePage() {
                       {compared.map((n) => {
                         const val = (n as any)[m.key] as number;
                         const isBest = val === best && compared.length > 1;
-                        const formatted = m.format ? m.format(val) : val;
+                        const formatted = "format" in m && m.format ? m.format(val) : val;
                         return (
                           <td key={n.id} className={`text-center py-3 px-3 ${isBest ? "font-bold text-accent" : ""}`}>
                             {formatted}

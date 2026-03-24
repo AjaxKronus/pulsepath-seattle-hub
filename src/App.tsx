@@ -3,8 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index.tsx";
-import NotFound from "./pages/NotFound.tsx";
+import { AppProvider } from "@/context/AppContext";
+import Navbar from "@/components/Navbar";
+import HomePage from "@/pages/HomePage";
+import OnboardingPage from "@/pages/OnboardingPage";
+import DashboardPage from "@/pages/DashboardPage";
+import ComparePage from "@/pages/ComparePage";
+import FavoritesPage from "@/pages/FavoritesPage";
+import BusinessDashboardPage from "@/pages/BusinessDashboardPage";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -13,13 +20,20 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AppProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/onboarding" element={<OnboardingPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/compare" element={<ComparePage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/business" element={<BusinessDashboardPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AppProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
