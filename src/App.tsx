@@ -31,6 +31,7 @@ const App = () => (
             <Route path="/compare" element={<ComparePage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/business" element={<BusinessDashboardPage />} />
+            <Route path="/report" element={<ResilienceReportPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

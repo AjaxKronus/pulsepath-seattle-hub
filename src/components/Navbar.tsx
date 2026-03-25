@@ -8,6 +8,7 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: MapPin },
   { to: "/compare", label: "Compare", icon: BarChart3 },
   { to: "/favorites", label: "Saved", icon: Heart },
+  { to: "/report", label: "Report", icon: Shield },
   { to: "/business", label: "B2B", icon: Building2 },
 ];
 
