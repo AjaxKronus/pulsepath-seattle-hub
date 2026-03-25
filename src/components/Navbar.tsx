@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Heart, BarChart3, Building2, Menu, X } from "lucide-react";
+import { MapPin, Heart, BarChart3, Building2, Menu, X, Shield } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: MapPin },
   { to: "/compare", label: "Compare", icon: BarChart3 },
   { to: "/favorites", label: "Saved", icon: Heart },
+  { to: "/report", label: "Report", icon: Shield },
   { to: "/business", label: "B2B", icon: Building2 },
 ];
 
