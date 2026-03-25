@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Heart, BarChart3, Building2, Menu, X } from "lucide-react";
+import { MapPin, Heart, BarChart3, Building2, Menu, X, Shield } from "lucide-react";
 import { useState } from "react";
 
 const navItems = [
