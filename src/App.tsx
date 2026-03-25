@@ -11,6 +11,7 @@ import DashboardPage from "@/pages/DashboardPage";
 import ComparePage from "@/pages/ComparePage";
 import FavoritesPage from "@/pages/FavoritesPage";
 import BusinessDashboardPage from "@/pages/BusinessDashboardPage";
+import ResilienceReportPage from "@/pages/ResilienceReportPage";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
