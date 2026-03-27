@@ -93,6 +93,16 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 </div>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <a
+                    href={getZillowUrl(selectedNeighborhood.name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    Browse Rentals on Zillow <ExternalLink className="w-4 h-4" />
+                  </a>
+                </div>
               </motion.div>
             )}
           </div>
