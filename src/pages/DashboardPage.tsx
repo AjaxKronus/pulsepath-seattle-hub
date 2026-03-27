@@ -4,8 +4,13 @@ import { useApp } from "@/context/AppContext";
 import NeighborhoodCard from "@/components/NeighborhoodCard";
 import SeattleMap from "@/components/SeattleMap";
 import { Link } from "react-router-dom";
-import { SlidersHorizontal, ArrowRight } from "lucide-react";
+import { SlidersHorizontal, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+function getZillowUrl(name: string) {
+  const slug = name.toLowerCase().replace(/\s+/g, "-");
+  return `https://www.zillow.com/seattle-wa/${slug}/rentals/`;
+}
 
 export default function DashboardPage() {
   const { scoredNeighborhoods, favorites, toggleFavorite, preferences } = useApp();
