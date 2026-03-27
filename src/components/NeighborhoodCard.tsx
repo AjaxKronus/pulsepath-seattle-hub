@@ -1,5 +1,10 @@
 import { Neighborhood } from "@/types";
-import { Heart } from "lucide-react";
+import { Heart, ExternalLink } from "lucide-react";
+
+function getZillowUrl(name: string) {
+  const slug = name.toLowerCase().replace(/\s+/g, "-");
+  return `https://www.zillow.com/seattle-wa/${slug}/rentals/`;
+}
 
 interface Props {
   neighborhood: Neighborhood & { resilienceScore: number };
@@ -61,12 +66,23 @@ export default function NeighborhoodCard({ neighborhood: n, isFavorite, onToggle
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
-        {n.highlights.slice(0, 3).map((h) => (
-          <span key={h} className="px-2 py-0.5 rounded-full bg-secondary text-xs text-secondary-foreground">
-            {h}
-          </span>
-        ))}
+      <div className="flex items-center justify-between">
+        <div className="flex flex-wrap gap-1.5">
+          {n.highlights.slice(0, 3).map((h) => (
+            <span key={h} className="px-2 py-0.5 rounded-full bg-secondary text-xs text-secondary-foreground">
+              {h}
+            </span>
+          ))}
+        </div>
+        <a
+          href={getZillowUrl(n.name)}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center gap-1 text-[10px] font-medium text-primary hover:underline shrink-0 ml-2"
+        >
+          Zillow <ExternalLink className="w-3 h-3" />
+        </a>
       </div>
     </div>
   );
