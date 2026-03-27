@@ -8,8 +8,8 @@ import { SlidersHorizontal, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function getZillowUrl(name: string) {
-  const slug = name.toLowerCase().replace(/\s+/g, "-");
-  return `https://www.zillow.com/seattle-wa/${slug}/rentals/`;
+  const query = encodeURIComponent(`${name}, Seattle, WA rentals`);
+  return `https://www.zillow.com/homes/for_rent/${query}`;
 }
 
 export default function DashboardPage() {
