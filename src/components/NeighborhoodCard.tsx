@@ -2,8 +2,8 @@ import { Neighborhood } from "@/types";
 import { Heart, ExternalLink } from "lucide-react";
 
 function getZillowUrl(name: string) {
-  const slug = name.toLowerCase().replace(/\s+/g, "-");
-  return `https://www.zillow.com/seattle-wa/${slug}/rentals/`;
+  const query = encodeURIComponent(`${name}, Seattle, WA rentals`);
+  return `https://www.zillow.com/homes/for_rent/${query}`;
 }
 
 interface Props {
