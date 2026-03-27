@@ -1,5 +1,10 @@
 import { Neighborhood } from "@/types";
-import { Heart } from "lucide-react";
+import { Heart, ExternalLink } from "lucide-react";
+
+function getZillowUrl(name: string) {
+  const slug = name.toLowerCase().replace(/\s+/g, "-");
+  return `https://www.zillow.com/seattle-wa/${slug}/rentals/`;
+}
 
 interface Props {
   neighborhood: Neighborhood & { resilienceScore: number };
