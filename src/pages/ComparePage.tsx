@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export default function ComparePage() {
   const { scoredNeighborhoods } = useApp();
@@ -36,6 +38,11 @@ export default function ComparePage() {
       <div className="container mx-auto max-w-5xl">
         <h1 className="text-2xl font-display font-bold mb-2">Compare Neighborhoods</h1>
         <p className="text-sm text-muted-foreground mb-6">Select up to 4 neighborhoods to compare.</p>
+        <div className="mb-6">
+          <Button asChild variant="outline" size="sm">
+            <Link to="/">Refine Criteria</Link>
+          </Button>
+        </div>
 
         {/* Selector */}
         <div className="flex flex-wrap gap-2 mb-8">
