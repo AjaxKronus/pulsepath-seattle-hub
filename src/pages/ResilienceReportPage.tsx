@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Lock, Shield, TrendingUp, MapPin, DollarSign, Heart, ArrowRight, Check, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CriteriaSummaryCard from "@/components/chat/CriteriaSummaryCard";
 
 function ScoreRing({ score, label, size = 56 }: { score: number; label: string; size?: number }) {
   const radius = (size - 8) / 2;
@@ -23,7 +24,7 @@ function ScoreRing({ score, label, size = 56 }: { score: number; label: string; 
 }
 
 export default function ResilienceReportPage() {
-  const { scoredNeighborhoods, preferences, userName, shortlist } = useApp();
+  const { scoredNeighborhoods, preferences, userName, shortlist, criteria } = useApp();
   const reportNeighborhoods = shortlist.length > 0
     ? scoredNeighborhoods.filter((n) => shortlist.includes(n.id))
     : scoredNeighborhoods.slice(0, 3);
@@ -47,13 +48,33 @@ export default function ResilienceReportPage() {
             A personalized analysis of your top neighborhood matches based on
             {hasPrefs ? ` a $${preferences.rentBudget.toLocaleString()}/mo budget and ${preferences.maxCommute}-min commute.` : " default scoring."}
           </p>
+          <div className="mt-4">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/">Refine Criteria</Link>
+            </Button>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <CriteriaSummaryCard criteria={criteria} />
         </div>
 
         {/* Summary Cards */}
         {hasPrefs && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             {[
-              { icon: MapPin, label: "Work Location", value: preferences.workLocation === "uw" ? "UW" : preferences.workLocation === "downtown" ? "Downtown" : "SLU" },
+              {
+                icon: MapPin,
+                label: "Work Location",
+                value:
+                  preferences.workLocation === "uw"
+                    ? "UW"
+                    : preferences.workLocation === "downtown"
+                      ? "Downtown"
+                      : preferences.workLocation === "slu"
+                        ? "SLU"
+                        : "Remote / Other",
+              },
               { icon: DollarSign, label: "Budget", value: `$${preferences.rentBudget.toLocaleString()}` },
               { icon: TrendingUp, label: "Max Commute", value: `${preferences.maxCommute} min` },
               { icon: Heart, label: "Wellness", value: `${preferences.wellnessPriorities.length} priorities` },

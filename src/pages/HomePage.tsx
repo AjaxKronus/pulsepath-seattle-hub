@@ -30,7 +30,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button asChild size="lg" className="bg-hero-gradient text-primary-foreground hover:opacity-90 px-8">
-                <Link to="/onboarding">
+                <Link to="/">
                   Get My Recommendations
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
@@ -93,7 +93,7 @@ export default function HomePage() {
               Answer a few quick questions and get personalized neighborhood recommendations in seconds.
             </p>
             <Button asChild size="lg" variant="secondary" className="font-medium">
-              <Link to="/onboarding">
+              <Link to="/">
                 Start Now <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>

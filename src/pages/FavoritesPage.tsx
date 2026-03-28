@@ -13,6 +13,12 @@ export default function FavoritesPage() {
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="container mx-auto max-w-4xl">
+        <div className="mb-6">
+          <Button asChild variant="outline" size="sm">
+            <Link to="/">Refine Criteria</Link>
+          </Button>
+        </div>
+
         {/* Shortlist Section */}
         <div className="mb-10">
           <div className="flex items-center gap-2 mb-1">

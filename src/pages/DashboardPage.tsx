@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import NeighborhoodCard from "@/components/NeighborhoodCard";
 import SeattleMap from "@/components/SeattleMap";
+import CriteriaSummaryCard from "@/components/chat/CriteriaSummaryCard";
 import { Link } from "react-router-dom";
 import { SlidersHorizontal, ArrowRight, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,7 @@ function getZillowUrl(name: string) {
 }
 
 export default function DashboardPage() {
-  const { scoredNeighborhoods, favorites, toggleFavorite, preferences } = useApp();
+  const { scoredNeighborhoods, favorites, toggleFavorite, preferences, criteria, criteriaReady } = useApp();
   const [selectedId, setSelectedId] = useState<string | null>(scoredNeighborhoods[0]?.id ?? null);
 
   const selectedNeighborhood = scoredNeighborhoods.find((n) => n.id === selectedId);
@@ -30,17 +31,22 @@ export default function DashboardPage() {
             <p className="text-sm text-muted-foreground">
               {preferences
                 ? `Budget $${preferences.rentBudget}/mo · ${preferences.maxCommute} min commute`
-                : "Complete the quiz for personalized results"}
+                : "Complete the guided intake for personalized results"}
             </p>
           </div>
           <div className="flex gap-2">
-            {!preferences && (
+            {!criteriaReady && (
               <Button asChild size="sm" variant="outline">
-                <Link to="/onboarding">
-                  <SlidersHorizontal className="w-3.5 h-3.5 mr-1.5" /> Set Preferences
+                <Link to="/">
+                  <SlidersHorizontal className="w-3.5 h-3.5 mr-1.5" /> Finish Intake
                 </Link>
               </Button>
             )}
+            <Button asChild size="sm" variant="outline">
+              <Link to="/">
+                Refine Criteria
+              </Link>
+            </Button>
             <Button asChild size="sm" variant="outline">
               <Link to="/compare">
                 Compare <ArrowRight className="w-3.5 h-3.5 ml-1" />
@@ -109,6 +115,7 @@ export default function DashboardPage() {
 
           {/* Rankings list */}
           <div className="lg:col-span-2 space-y-3">
+            <CriteriaSummaryCard criteria={criteria} />
             <h2 className="font-display font-semibold text-sm text-muted-foreground uppercase tracking-wider">
               Rankings
             </h2>

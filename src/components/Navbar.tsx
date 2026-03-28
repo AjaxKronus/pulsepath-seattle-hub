@@ -1,34 +1,69 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { MapPin, Heart, BarChart3, Building2, Menu, X, Shield } from "lucide-react";
+import { BarChart3, Bot, Building2, Heart, MapPin, Menu, Radar, Route, Shield, Target, X } from "lucide-react";
 import { useState } from "react";
 
-const navItems = [
-  { to: "/", label: "Home", icon: null },
+const consumerNavItems = [
+  { to: "/", label: "Intake", icon: null },
   { to: "/dashboard", label: "Dashboard", icon: MapPin },
   { to: "/compare", label: "Compare", icon: BarChart3 },
   { to: "/favorites", label: "Saved", icon: Heart },
   { to: "/report", label: "Report", icon: Shield },
-  { to: "/business", label: "B2B", icon: Building2 },
+  { to: "/assistant", label: "Assistant", icon: Bot },
+];
+
+const businessNavItems = [
+  { to: "/", label: "Overview", icon: Building2 },
+  { to: "/business/dashboard", label: "Dashboard", icon: MapPin },
+  { to: "/business/intelligence", label: "Intelligence", icon: Radar },
+  { to: "/business/dna-match", label: "DNA Match", icon: Target },
+  { to: "/business/campaign-planner", label: "Campaign", icon: Route },
+  { to: "/business/pipeline", label: "Pipeline", icon: Building2 },
+  { to: "/business/assistant", label: "Assistant", icon: Bot },
 ];
 
 export default function Navbar() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const isBusinessRoute = location.pathname.startsWith("/business");
+  const navItems = isBusinessRoute
+    ? businessNavItems.map((item, idx) => (idx === 0 ? { ...item, to: "/business" } : item))
+    : consumerNavItems;
+  const brandName = isBusinessRoute ? "PulsePath Seattle" : "PulsePath";
+  const brandBadge = isBusinessRoute ? "Business" : "Seattle";
+  const brandTo = isBusinessRoute ? "/business" : "/";
+  const primaryModeLabel = isBusinessRoute ? "Business" : "Consumer";
+  const secondaryModeLabel = isBusinessRoute ? "Consumer" : "Business";
+  const secondaryModeTo = isBusinessRoute ? "/" : "/business";
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-glass">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to={brandTo} className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-hero-gradient flex items-center justify-center">
-            <MapPin className="w-4 h-4 text-primary-foreground" />
+            {isBusinessRoute ? (
+              <Building2 className="w-4 h-4 text-primary-foreground" />
+            ) : (
+              <MapPin className="w-4 h-4 text-primary-foreground" />
+            )}
           </div>
-          <span className="font-display font-bold text-lg text-foreground">PulsePath</span>
-          <span className="text-xs font-medium text-muted-foreground hidden sm:inline">Seattle</span>
+          <span className="font-display font-bold text-lg text-foreground">{brandName}</span>
+          <span className="text-xs font-medium text-muted-foreground hidden sm:inline">{brandBadge}</span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-3">
+          <div className="inline-flex items-center rounded-full border border-border/80 bg-card/80 p-1">
+            <span className="px-2.5 py-1 text-xs font-semibold text-foreground">{primaryModeLabel}</span>
+            <Link
+              to={secondaryModeTo}
+              className="px-2.5 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            >
+              {secondaryModeLabel}
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-1">
           {navItems.map((item) => {
             const active = location.pathname === item.to;
             return (
@@ -53,6 +88,7 @@ export default function Navbar() {
               </Link>
             );
           })}
+          </div>
         </div>
 
         {/* Mobile toggle */}
@@ -68,6 +104,17 @@ export default function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden bg-card border-b border-border px-4 pb-4"
         >
+          <div className="mb-3 inline-flex items-center rounded-full border border-border/80 bg-secondary/40 p-1">
+            <span className="px-2.5 py-1 text-xs font-semibold text-foreground">{primaryModeLabel}</span>
+            <Link
+              to={secondaryModeTo}
+              onClick={() => setMobileOpen(false)}
+              className="px-2.5 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            >
+              {secondaryModeLabel}
+            </Link>
+          </div>
+
           {navItems.map((item) => (
             <Link
               key={item.to}

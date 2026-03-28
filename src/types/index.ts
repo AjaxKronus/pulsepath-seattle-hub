@@ -27,6 +27,46 @@ export interface UserPreferences {
   wellnessPriorities: string[];
 }
 
+export interface CommutePreference {
+  maxMinutes: number | null;
+  preferredModes: string[];
+}
+
+export interface CriteriaPriorityWeights {
+  affordability: number;
+  commute: number;
+  wellness: number;
+  socialScene: number;
+}
+
+export interface SearchCriteria {
+  workLocation: string;
+  targetNeighborhoods: string[];
+  maxRent: number | null;
+  commutePreference: CommutePreference;
+  wellnessPriorities: string[];
+  lifestylePreferences: string[];
+  mustHaves: string[];
+  niceToHaves: string[];
+  excludedAreas: string[];
+  priorityWeights: CriteriaPriorityWeights;
+  confidenceScore: number;
+  missingFields: string[];
+}
+
+export interface ConversationMessage {
+  id: string;
+  role: "assistant" | "user";
+  content: string;
+  createdAt: number;
+}
+
+export interface CriteriaExtractionResult {
+  criteria: SearchCriteria;
+  assistantReply: string;
+  identifiedSignals: string[];
+}
+
 export interface FavoriteNeighborhood {
   id: string;
   addedAt: Date;
