@@ -2,10 +2,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import NeighborhoodCard from "@/components/NeighborhoodCard";
-import SeattleMap from "@/components/SeattleMap";
+import PulseMap from "@/components/map/PulseMap";
 import CriteriaSummaryCard from "@/components/chat/CriteriaSummaryCard";
 import { Link } from "react-router-dom";
-import { SlidersHorizontal, ArrowRight, ExternalLink } from "lucide-react";
+import { SlidersHorizontal, ArrowRight, ExternalLink, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function getZillowUrl(name: string) {
@@ -22,6 +22,15 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="container mx-auto max-w-6xl">
+        {/* Prototype banner */}
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs text-amber-400">
+          <FlaskConical className="h-3.5 w-3.5 flex-shrink-0" />
+          <span>
+            <strong>Prototype</strong> — All neighborhood data is mock / illustrative only.
+            Map powered by ArcGIS Maps SDK.
+          </span>
+        </div>
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
           <div>
@@ -58,7 +67,7 @@ export default function DashboardPage() {
         <div className="grid lg:grid-cols-5 gap-6">
           {/* Map */}
           <div className="lg:col-span-3">
-            <SeattleMap
+            <PulseMap
               neighborhoods={scoredNeighborhoods}
               selectedId={selectedId}
               onSelect={setSelectedId}
