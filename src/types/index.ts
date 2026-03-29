@@ -13,6 +13,8 @@ export interface Neighborhood {
   commuteToUW: number; // minutes
   commuteToDT: number; // minutes to downtown
   coordinates: { x: number; y: number }; // relative map position (0-100)
+  lat?: number;  // WGS84 latitude for ArcGIS
+  lng?: number;  // WGS84 longitude for ArcGIS
   highlights: string[];
   wellnessSpots: string[];
   avgStudioRent: number;
@@ -40,6 +42,7 @@ export interface CriteriaPriorityWeights {
 }
 
 export interface SearchCriteria {
+  // --- core fields (used by scoring engine) ---
   workLocation: string;
   targetNeighborhoods: string[];
   maxRent: number | null;
@@ -52,6 +55,22 @@ export interface SearchCriteria {
   priorityWeights: CriteriaPriorityWeights;
   confidenceScore: number;
   missingFields: string[];
+
+  // --- extended MVP fields (Gemini NLU-populated) ---
+  intent?: string;                    // free-text user goal summary
+  locationAnchor?: string;           // canonical anchor (e.g. "uw", "slu", "downtown")
+  geography?: string;                 // city / region scope (default "Seattle, WA")
+  housingType?: string;               // "apartment" | "studio" | "house" | ...
+  bedrooms?: number;                  // 0 = studio, 1, 2, ...
+  maxBudget?: number;                 // alias for maxRent, preferred by Gemini extraction
+  bufferMeters?: number;              // proximity radius around anchor
+  transitPreference?: string[];       // e.g. ["bus", "light-rail", "walk"]
+  wellnessPreference?: string[];      // alias / supplement to wellnessPriorities
+  safetyPriority?: number;            // 0–1 normalized importance
+  affordabilityPriority?: number;     // 0–1 normalized importance
+  transitPriority?: number;           // 0–1 normalized importance
+  lifestylePriority?: number;         // 0–1 normalized importance
+  userNotes?: string;                 // any extra user context verbatim
 }
 
 export interface ConversationMessage {
