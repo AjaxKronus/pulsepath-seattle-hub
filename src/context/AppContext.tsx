@@ -14,13 +14,15 @@ import {
   isCriteriaReady,
   processIntakeTurn,
 } from "@/lib/criteriaExtraction";
+import { processIntakeTurnWithGemini } from "@/lib/criteriaExtraction";
 import { computeCriteriaDrivenScore, derivePreferencesFromCriteria } from "@/lib/criteriaScoring";
 
 interface AppState {
   criteria: SearchCriteria;
   updateCriteria: (patch: Partial<SearchCriteria>) => void;
   conversation: ConversationMessage[];
-  sendIntakeMessage: (message: string) => void;
+  sendIntakeMessage: (message: string) => Promise<void>;
+  isSending: boolean;
   resetIntake: () => void;
   criteriaReady: boolean;
   hasEnteredApp: boolean;
@@ -116,6 +118,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [shortlist, setShortlist] = useState<string[]>(initialSnapshot.shortlist);
   const [userName, setUserNameState] = useState(initialSnapshot.userName);
   const [hasEnteredApp, setHasEnteredApp] = useState(initialSnapshot.hasEnteredApp);
+  const [isSending, setIsSending] = useState(false);
+
+  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY as string ?? "";
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -174,21 +179,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const setUserName = (name: string) => setUserNameState(name);
 
-  const sendIntakeMessage = (message: string) => {
+  const sendIntakeMessage = async (message: string): Promise<void> => {
     const trimmed = message.trim();
-    if (!trimmed) {
-      return;
-    }
+    if (!trimmed || isSending) return;
 
     const userMessage = makeUserMessage(trimmed);
-    const result = processIntakeTurn(trimmed, criteria);
+    // Show user message immediately with a pending indicator
+    setConversation((prev) => [...prev, userMessage]);
+    setIsSending(true);
 
-    setConversation((currentConversation) => [
-      ...currentConversation,
-      userMessage,
-      createAssistantMessage(result.assistantReply),
-    ]);
-    setCriteria(result.criteria);
+    try {
+      let result;
+      if (geminiApiKey.trim()) {
+        result = await processIntakeTurnWithGemini(trimmed, criteria, geminiApiKey);
+      } else {
+        result = processIntakeTurn(trimmed, criteria);
+      }
+      setConversation((prev) => [...prev, createAssistantMessage(result.assistantReply)]);
+      setCriteria(result.criteria);
+    } catch (err) {
+      console.error("[PulsePath] sendIntakeMessage error:", err);
+      const fallback = processIntakeTurn(trimmed, criteria);
+      setConversation((prev) => [...prev, createAssistantMessage(fallback.assistantReply)]);
+      setCriteria(fallback.criteria);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const continueToApp = () => setHasEnteredApp(true);
@@ -237,6 +253,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         updateCriteria,
         conversation,
         sendIntakeMessage,
+        isSending,
         resetIntake,
         criteriaReady,
         hasEnteredApp,
