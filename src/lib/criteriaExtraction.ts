@@ -335,6 +335,219 @@ function buildAssistantReply(criteria: SearchCriteria, identifiedSignals: string
   return `${identified}${missing} ${getFollowUpQuestion(criteria)}`;
 }
 
+// ---------------------------------------------------------------------------
+// Gemini-powered extraction (async, falls back to regex on error)
+// ---------------------------------------------------------------------------
+
+  const NEIGHBORHOOD_IDS = [
+    "u-district", "capitol-hill", "fremont", "ballard", "wallingford",
+    "columbia-city", "beacon-hill", "south-lake-union", "greenwood", "west-seattle",
+  ];
+
+  function buildGeminiExtractionPrompt(message: string, current: SearchCriteria): string {
+    return `You are a geospatial decision assistant for PulsePath, helping users find Seattle neighborhoods.
+
+  Extract structured search criteria from the user message below. Merge with the current criteria state.
+
+  Available neighborhood IDs: ${NEIGHBORHOOD_IDS.join(", ")}
+  Available wellnessPriorities values: gym, yoga, parks, mental-health, healthy-food, running-trails
+  Available lifestylePreferences values: nightlife, quiet, walkable, waterfront, arts, familyFriendly
+  Available workLocation values: uw, downtown, slu, other
+
+  Current criteria (for context): ${JSON.stringify(current)}
+
+  User message: "${message}"
+
+  Respond ONLY with a JSON object containing exactly these keys (use null for unknown fields):
+  {
+    "intent": "string — short summary of user intent",
+    "workLocation": "uw|slu|downtown|other — or null",
+    "locationAnchor": "uw|slu|downtown|other — or null",
+    "maxRent": "number or null",
+    "maxBudget": "number or null — same as maxRent",
+    "commuteMaxMinutes": "number or null",
+    "preferredModes": ["walk","bus","bike","light-rail","drive"],
+    "wellnessPriorities": ["gym","yoga","parks","mental-health","healthy-food","running-trails"],
+    "wellnessPreference": ["same values as wellnessPriorities"],
+    "lifestylePreferences": ["nightlife","quiet","walkable","waterfront","arts","familyFriendly"],
+    "targetNeighborhoods": ["neighborhood-ids"],
+    "excludedAreas": ["neighborhood-ids"],
+    "mustHaves": ["strings"],
+    "niceToHaves": ["strings"],
+    "housingType": "apartment|studio|house|condo|other or null",
+    "bedrooms": "number 0=studio or null",
+    "bufferMeters": "number or null",
+    "safetyPriority": "float 0-1 or null",
+    "affordabilityPriority": "float 0-1 or null",
+    "transitPriority": "float 0-1 or null",
+    "lifestylePriority": "float 0-1 or null",
+    "userNotes": "string or null",
+    "confidenceScore": "float 0-1",
+    "assistantReply": "1-2 sentence conversational reply acknowledging what was understood and asking a follow-up question if core info is missing"
+  }`;
+  }
+
+  const GEMINI_MODELS = [
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite",
+    "gemini-1.5-flash-latest",
+  ];
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function mergeGeminiResult(parsed: Record<string, any>, current: SearchCriteria): CriteriaExtractionResult {
+    const next: SearchCriteria = {
+      ...current,
+      commutePreference: { ...current.commutePreference },
+      priorityWeights: { ...current.priorityWeights },
+      targetNeighborhoods: [...current.targetNeighborhoods],
+      wellnessPriorities: [...current.wellnessPriorities],
+      lifestylePreferences: [...current.lifestylePreferences],
+      mustHaves: [...current.mustHaves],
+      niceToHaves: [...current.niceToHaves],
+      excludedAreas: [...current.excludedAreas],
+    };
+
+    if (parsed.workLocation) next.workLocation = parsed.workLocation;
+    if (parsed.locationAnchor) next.locationAnchor = parsed.locationAnchor;
+    if (parsed.maxRent != null) next.maxRent = Number(parsed.maxRent);
+    else if (parsed.maxBudget != null) next.maxRent = Number(parsed.maxBudget);
+    if (parsed.maxBudget != null) next.maxBudget = Number(parsed.maxBudget);
+    if (parsed.commuteMaxMinutes != null) {
+      next.commutePreference.maxMinutes = Number(parsed.commuteMaxMinutes);
+    }
+    if (Array.isArray(parsed.preferredModes) && parsed.preferredModes.length) {
+      next.commutePreference.preferredModes = unique([
+        ...next.commutePreference.preferredModes,
+        ...parsed.preferredModes,
+      ]);
+    }
+    if (Array.isArray(parsed.transitPreference) && parsed.transitPreference.length) {
+      next.transitPreference = parsed.transitPreference;
+    }
+    if (Array.isArray(parsed.wellnessPriorities) && parsed.wellnessPriorities.length) {
+      next.wellnessPriorities = unique([...next.wellnessPriorities, ...parsed.wellnessPriorities]);
+    }
+    if (Array.isArray(parsed.wellnessPreference) && parsed.wellnessPreference.length) {
+      next.wellnessPreference = unique([...(next.wellnessPreference ?? []), ...parsed.wellnessPreference]);
+      if (!parsed.wellnessPriorities?.length) {
+        next.wellnessPriorities = unique([...next.wellnessPriorities, ...parsed.wellnessPreference]);
+      }
+    }
+    if (Array.isArray(parsed.lifestylePreferences) && parsed.lifestylePreferences.length) {
+      next.lifestylePreferences = unique([...next.lifestylePreferences, ...parsed.lifestylePreferences]);
+    }
+    if (Array.isArray(parsed.targetNeighborhoods) && parsed.targetNeighborhoods.length) {
+      next.targetNeighborhoods = unique([...next.targetNeighborhoods, ...parsed.targetNeighborhoods]);
+    }
+    if (Array.isArray(parsed.excludedAreas) && parsed.excludedAreas.length) {
+      next.excludedAreas = unique([...next.excludedAreas, ...parsed.excludedAreas]);
+    }
+    if (Array.isArray(parsed.mustHaves) && parsed.mustHaves.length) {
+      next.mustHaves = unique([...next.mustHaves, ...parsed.mustHaves]);
+    }
+    if (Array.isArray(parsed.niceToHaves) && parsed.niceToHaves.length) {
+      next.niceToHaves = unique([...next.niceToHaves, ...parsed.niceToHaves]);
+    }
+
+    // Extended MVP fields
+    if (parsed.intent) next.intent = parsed.intent;
+    if (parsed.housingType) next.housingType = parsed.housingType;
+    if (parsed.bedrooms != null) next.bedrooms = Number(parsed.bedrooms);
+    if (parsed.bufferMeters != null) next.bufferMeters = Number(parsed.bufferMeters);
+    if (parsed.safetyPriority != null) next.safetyPriority = Number(parsed.safetyPriority);
+    if (parsed.affordabilityPriority != null) next.affordabilityPriority = Number(parsed.affordabilityPriority);
+    if (parsed.transitPriority != null) next.transitPriority = Number(parsed.transitPriority);
+    if (parsed.lifestylePriority != null) next.lifestylePriority = Number(parsed.lifestylePriority);
+    if (parsed.userNotes) next.userNotes = parsed.userNotes;
+
+    const finalized = finalizeCriteria(next);
+
+    // Override confidence with Gemini's estimate if higher
+    if (parsed.confidenceScore != null) {
+      finalized.confidenceScore = Math.max(finalized.confidenceScore, Number(parsed.confidenceScore));
+    }
+
+    const identifiedSignals: string[] = [];
+    if (finalized.workLocation) identifiedSignals.push(`commute anchor: ${finalized.workLocation}`);
+    if (finalized.maxRent) identifiedSignals.push(`budget: $${finalized.maxRent}/mo`);
+    if (finalized.commutePreference.maxMinutes) {
+      identifiedSignals.push(`commute: ${finalized.commutePreference.maxMinutes} min max`);
+    }
+    if (finalized.wellnessPriorities.length) identifiedSignals.push(`wellness: ${finalized.wellnessPriorities.join(", ")}`);
+    if (finalized.lifestylePreferences.length) identifiedSignals.push(`lifestyle: ${finalized.lifestylePreferences.join(", ")}`);
+
+    const assistantReply =
+      parsed.assistantReply ||
+      buildAssistantReply(finalized, identifiedSignals);
+
+    return { criteria: finalized, assistantReply, identifiedSignals };
+  }
+
+  export async function processIntakeTurnWithGemini(
+    message: string,
+    current: SearchCriteria,
+    apiKey: string,
+  ): Promise<CriteriaExtractionResult> {
+    const prompt = buildGeminiExtractionPrompt(message, current);
+    let lastError: string = "";
+
+    for (const model of GEMINI_MODELS) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              system_instruction: {
+                parts: [{ text: "You are a structured data extraction assistant. Always respond with valid JSON only." }],
+              },
+              contents: [{ role: "user", parts: [{ text: prompt }] }],
+              generationConfig: {
+                temperature: 0.1,
+                responseMimeType: "application/json",
+              },
+            }),
+          },
+        );
+
+        if (!response.ok) {
+          const body = await response.text();
+          lastError = `${response.status}: ${body.slice(0, 200)}`;
+          if (response.status === 404) continue;
+          throw new Error(`Gemini failed (${response.status})`);
+        }
+
+        const data = (await response.json()) as {
+          candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+        };
+
+        const raw = data.candidates?.[0]?.content?.parts
+          ?.map((p) => p.text ?? "")
+          .join("")
+          .trim();
+
+        if (!raw) throw new Error("Empty Gemini response");
+
+        // Strip optional markdown code fences
+        const jsonStr = raw.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/, "").trim();
+        const parsed = JSON.parse(jsonStr) as Record<string, unknown>;
+        return mergeGeminiResult(parsed as Record<string, any>, current);
+      } catch (err) {
+        lastError = String(err);
+        // On 404 or empty, try next model; otherwise re-throw
+        if (!String(err).includes("404")) {
+          console.warn("[PulsePath] Gemini criteria extraction error:", err);
+          break;
+        }
+      }
+    }
+
+    // Fallback: use regex-based extraction
+    console.warn("[PulsePath] Gemini unavailable, falling back to regex extraction. Last error:", lastError);
+    return processIntakeTurn(message, current);
+  }
+
 export function processIntakeTurn(message: string, currentCriteria: SearchCriteria): CriteriaExtractionResult {
   const nextCriteria: SearchCriteria = {
     ...currentCriteria,
