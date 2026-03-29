@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulsePath | Spatial Intelligence for Gesture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; scroll-behavior: smooth; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .step { min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; padding: 0 10%; position: relative; z-index: 10; }
+        .map-bg { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 1; transition: all 0.8s ease-in-out; filter: brightness(0.4) grayscale(0.5); }
+        .active-step { opacity: 1; transform: translateY(0); transition: all 0.6s ease-out; }
+        .inactive-step { opacity: 0; transform: translateY(30px); }
+        .highlight { color: #3b82f6; } /* Gesture Blue */
+        .gradient-text { background: linear-gradient(90deg, #3b82f6, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body>
+
+    <div id="visual-target" class="map-bg">
+        <div class="w-full h-full flex items-center justify-center border-l border-white/10">
+            <div id="map-status" class="text-xs font-mono uppercase tracking-widest opacity-30">Initializing Spatial Engine...</div>
+        </div>
+    </div>
+
+    <main class="relative">
+
+        <section class="step" data-bg="brightness(0.5) grayscale(0.8)">
+            <div class="max-w-2xl inactive-step">
+                <h1 class="text-6xl font-800 mb-6 tracking-tight">The City is <span class="gradient-text">Breathing.</span></h1>
+                <p class="text-xl text-gray-400 leading-relaxed">Most maps tell you where things are. <br><span class="text-white font-semibold">PulsePath</span> tells you how the city is moving.</p>
+                <div class="mt-8 flex gap-4">
+                    <span class="px-3 py-1 text-xs border border-white/20 rounded-full">UW Data Science</span>
+                    <span class="px-3 py-1 text-xs border border-white/20 rounded-full">ArcGIS Maps SDK</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-bg="brightness(0.3) hue-rotate(180deg)">
+            <div class="max-w-xl inactive-step glass p-8 rounded-2xl">
+                <h2 class="text-3xl font-bold mb-4">The "Dead Data" Gap</h2>
+                <p class="text-gray-300 mb-4">Urban data is currently trapped in siloed spreadsheets. By the time a business sees it, the opportunity has passed.</p>
+                <p class="text-white font-semibold italic text-lg">"Static maps can't drive an instant economy."</p>
+            </div>
+        </section>
+
+        <section class="step" data-bg="brightness(0.6) saturate(1.5)">
+            <div class="max-w-xl inactive-step">
+                <h2 class="text-3xl font-bold mb-4">PulsePath Seattle Hub</h2>
+                <p class="text-gray-300 mb-6">A real-time Decision Support System (DSS) using <span class="highlight">SDOT</span> and <span class="highlight">King County Metro</span> feeds to quantify urban resilience and activity peaks.</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass p-4 rounded-xl text-sm"><span class="block font-bold mb-1">Logic</span> criteriaScoring.ts</div>
+                    <div class="glass p-4 rounded-xl text-sm"><span class="block font-bold mb-1">Sync</span> ArcGIS Feature Layers</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-bg="brightness(0.7) contrast(1.2)">
+            <div class="max-w-xl inactive-step glass p-8 rounded-2xl border-blue-500/30">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-blue-600 rounded flex items-center justify-center font-bold italic">Z</div>
+                    <h2 class="text-3xl font-bold">Analysis to Action</h2>
+                </div>
+                <p class="text-gray-300">Our residential layer isn't just visual. It is a <span class="text-white">Commercial Portal</span>.</p>
+                <ul class="mt-4 space-y-2 text-sm text-gray-400">
+                    <li>• Identify high-pulse transit nodes.</li>
+                    <li>• Select high-potential housing parcels.</li>
+                    <li>• <span class="text-blue-400">Direct 2-way link to Zillow listings.</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="step" data-bg="grayscale(0) brightness(0.4)">
+            <div class="max-w-xl inactive-step">
+                <h2 class="text-3xl font-bold mb-4 italic">Built for the Global Market</h2>
+                <p class="text-gray-300 mb-6">PulsePath is city-agnostic. Our <strong>Modular Data Ingestion</strong> allows us to swap ArcGIS Feature URLs to scale from Seattle to NYC, London, or Tokyo in minutes.</p>
+                <div class="bg-white/5 p-6 border-l-4 border-blue-500">
+                    <p class="text-sm font-mono tracking-tighter">config.setMarket('NYC_DOT_FEED'); <br> intelligence.recalibrate();</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="step">
+            <div class="max-w-2xl inactive-step text-center mx-auto">
+                <h2 class="text-5xl font-800 mb-8 gradient-text">Gesture + PulsePath</h2>
+                <p class="text-xl text-gray-300 mb-10">Predicting "Gifting Hotspots" before they peak. Synchronizing instant commerce with the physical rhythm of the city.</p>
+                <a href="https://github.com/AjaxKronus" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 transition-colors rounded-full font-bold uppercase tracking-widest text-sm">View Prototype</a>
+                <div class="mt-12 text-gray-500 text-sm">
+                    Amartya Chaube | UW Geography & Data Science | Dec 2026
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Scrollytelling Logic
+        const sections = document.querySelectorAll('.step');
+        const visualTarget = document.getElementById('visual-target');
+        const statusText = document.getElementById('map-status');
+
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate Text
+                    entry.target.firstElementChild.classList.remove('inactive-step');
+                    entry.target.firstElementChild.classList.add('active-step');
+                    
+                    // Change Background Visual State
+                    const bgStyle = entry.target.getAttribute('data-bg');
+                    if(bgStyle) visualTarget.style.filter = bgStyle;
+
+                    // Update "Map" Status
+                    const stepTitle = entry.target.querySelector('h1, h2').innerText;
+                    statusText.innerText = `Layer: ${stepTitle.substring(0, 20)}...`;
+                } else {
+                    entry.target.firstElementChild.classList.add('inactive-step');
+                    entry.target.firstElementChild.classList.remove('active-step');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
