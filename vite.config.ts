@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
 export default defineConfig(() => ({
@@ -11,7 +12,17 @@ export default defineConfig(() => ({
       overlay: false,
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "node_modules/@arcgis/core/assets",
+          dest: "arcgis",
+        },
+      ],
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -42,6 +53,9 @@ export default defineConfig(() => ({
           }
           if (id.includes("node_modules/@radix-ui")) {
             return "vendor-radix";
+          }
+          if (id.includes("node_modules/@arcgis/core")) {
+            return "vendor-arcgis";
           }
           return undefined;
         },
