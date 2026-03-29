@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="pulsepath-gradient" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4f46e5" />
+      <stop offset="1" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="url(#pulsepath-gradient)" />
+  <path d="M32 16c-7.18 0-13 5.82-13 13 0 9.64 11.36 19.69 12.1 20.31a1.4 1.4 0 0 0 1.8 0C33.64 48.69 45 38.64 45 29c0-7.18-5.82-13-13-13Zm0 18.2a5.2 5.2 0 1 1 0-10.4 5.2 5.2 0 0 1 0 10.4Z" fill="white" />
+</svg>
