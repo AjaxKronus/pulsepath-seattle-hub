@@ -1,6 +1,6 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, CornerDownLeft, MessageSquareText, RefreshCcw } from "lucide-react";
+import { ArrowRight, Bot, CornerDownLeft, Loader2, MessageSquareText, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,17 +24,24 @@ export default function ConversationIntakePanel() {
     continueToApp,
     hasEnteredApp,
     resetIntake,
+    isSending,
   } = useApp();
   const [draft, setDraft] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (!draft.trim()) {
-      return;
+  // Auto-scroll conversation to bottom
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
+  }, [conversation, isSending]);
 
-    sendIntakeMessage(draft);
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!draft.trim() || isSending) return;
+    const msg = draft;
     setDraft("");
+    await sendIntakeMessage(msg);
   };
 
   const handleContinue = () => {
@@ -78,7 +85,7 @@ export default function ConversationIntakePanel() {
               <CardTitle className="text-base">Decision Guide Chat</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[520px] overflow-y-auto rounded-xl border border-border bg-secondary/20 p-3">
+              <div ref={scrollRef} className="h-[520px] overflow-y-auto rounded-xl border border-border bg-secondary/20 p-3">
                 <div className="space-y-3">
                   {conversation.map((message) => (
                     <div key={message.id} className={message.role === "user" ? "flex justify-end" : "flex justify-start"}>
@@ -89,10 +96,21 @@ export default function ConversationIntakePanel() {
                             : "border border-border bg-card text-foreground"
                         }`}
                       >
+                        {message.role === "assistant" && (
+                          <Bot className="inline-block w-3.5 h-3.5 mr-1.5 mb-0.5 text-primary opacity-70" />
+                        )}
                         {message.content}
                       </div>
                     </div>
                   ))}
+                  {isSending && (
+                    <div className="flex justify-start mt-2">
+                      <div className="border border-border bg-card rounded-2xl px-4 py-3 text-sm flex items-center gap-2 text-muted-foreground">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
+                        Analyzing your message…
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -115,8 +133,9 @@ export default function ConversationIntakePanel() {
                   <p className="text-xs text-muted-foreground">
                     The assistant will ask follow-up questions until your criteria is strong enough to drive recommendations.
                   </p>
-                  <Button type="submit" disabled={!draft.trim()}>
-                    Send
+                  <Button type="submit" disabled={!draft.trim() || isSending}>
+                    {isSending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                    {isSending ? "Analyzing…" : "Send"}
                     <CornerDownLeft className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
