@@ -1,0 +1,17 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#030712"/>
+  <rect width="1600" height="900" fill="url(#g)" fill-opacity="0.75"/>
+  <circle cx="800" cy="450" r="14" fill="#93C5FD"/>
+  <circle cx="610" cy="330" r="10" fill="#3B82F6"/>
+  <circle cx="980" cy="320" r="10" fill="#3B82F6"/>
+  <circle cx="1040" cy="540" r="10" fill="#22C55E"/>
+  <circle cx="570" cy="560" r="10" fill="#22C55E"/>
+  <path d="M800 450L610 330L980 320L1040 540L570 560L800 450" stroke="#60A5FA" stroke-width="3"/>
+  <text x="640" y="740" fill="#E2E8F0" font-size="42" font-family="Inter, Arial">Gesture + PulsePath intelligence loop</text>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1E3A8A" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#0F172A" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+</svg>
