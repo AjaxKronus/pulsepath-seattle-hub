@@ -1,0 +1,15 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#030303"/>
+  <g opacity="0.6">
+    <rect x="240" y="170" width="220" height="120" rx="16" fill="#111827" stroke="#374151"/>
+    <rect x="540" y="260" width="250" height="130" rx="16" fill="#0F172A" stroke="#374151"/>
+    <rect x="910" y="180" width="280" height="140" rx="16" fill="#111827" stroke="#374151"/>
+    <rect x="760" y="500" width="320" height="150" rx="16" fill="#0F172A" stroke="#374151"/>
+  </g>
+  <g stroke="#6B7280" stroke-width="3" stroke-dasharray="8 10" opacity="0.4">
+    <path d="M460 230L540 325"/>
+    <path d="M790 320L910 250"/>
+    <path d="M1010 320L920 500"/>
+  </g>
+  <text x="250" y="150" fill="#93C5FD" font-size="28" font-family="Inter, Arial, sans-serif" opacity="0.8">siloed inputs</text>
+</svg>
