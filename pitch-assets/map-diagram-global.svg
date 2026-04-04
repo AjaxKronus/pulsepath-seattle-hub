@@ -1,0 +1,11 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#020617"/>
+  <circle cx="800" cy="450" r="250" fill="none" stroke="#60A5FA" stroke-opacity="0.35" stroke-width="2"/>
+  <ellipse cx="800" cy="450" rx="320" ry="120" fill="none" stroke="#60A5FA" stroke-opacity="0.35" stroke-width="2"/>
+  <ellipse cx="800" cy="450" rx="180" ry="250" fill="none" stroke="#60A5FA" stroke-opacity="0.25" stroke-width="2"/>
+  <circle cx="690" cy="390" r="12" fill="#22C55E"/><text x="710" y="398" fill="#E5E7EB" font-size="18" font-family="Inter, Arial">Seattle</text>
+  <circle cx="900" cy="360" r="12" fill="#38BDF8"/><text x="920" y="368" fill="#E5E7EB" font-size="18" font-family="Inter, Arial">NYC</text>
+  <circle cx="980" cy="510" r="12" fill="#38BDF8"/><text x="1000" y="518" fill="#E5E7EB" font-size="18" font-family="Inter, Arial">London</text>
+  <circle cx="760" cy="560" r="12" fill="#38BDF8"/><text x="780" y="568" fill="#E5E7EB" font-size="18" font-family="Inter, Arial">Tokyo</text>
+  <path d="M690 390L900 360L980 510L760 560L690 390" stroke="#60A5FA" stroke-width="3" stroke-dasharray="8 10"/>
+</svg>
