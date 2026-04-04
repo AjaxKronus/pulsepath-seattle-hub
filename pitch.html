@@ -7,10 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Pulled from main app theme tokens in src/index.css */
+            --pp-primary: hsl(195 80% 25%);
+            --pp-accent: hsl(160 55% 40%);
+            --pp-surface: hsl(195 30% 97%);
+            --pp-bg: hsl(40 20% 98%);
+        }
         body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; scroll-behavior: smooth; }
         .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .step { min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; padding: 0 10%; position: relative; z-index: 10; }
-        .map-bg { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 1; transition: all 0.8s ease-in-out; filter: brightness(0.4) grayscale(0.5); }
+        .map-bg { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 1; transition: filter 0.8s ease-in-out, opacity 0.8s ease-in-out, background-image 0.8s ease-in-out; filter: brightness(0.58) contrast(1.02) saturate(0.9); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        .map-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.12), transparent 38%), linear-gradient(180deg, rgba(2,6,23,0.18), rgba(2,6,23,0.42)); pointer-events: none; }
+        .step-content { background: rgba(2, 6, 23, 0.40); backdrop-filter: blur(8px) saturate(110%); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 1rem; padding: 1.75rem 1.9rem; box-shadow: 0 12px 28px rgba(2, 6, 23, 0.35); }
+        .step h1, .step h2, .step p, .step li { text-shadow: 0 1px 2px rgba(0,0,0,0.35); }
         .active-step { opacity: 1; transform: translateY(0); transition: all 0.6s ease-out; }
         .inactive-step { opacity: 0; transform: translateY(30px); }
         .highlight { color: #3b82f6; } /* Gesture Blue */
@@ -27,38 +37,52 @@
 
     <main class="relative">
 
-        <section class="step" data-bg="brightness(0.5) grayscale(0.8)">
-            <div class="max-w-2xl inactive-step">
+        <section class="step" data-bg="brightness(0.60) contrast(1.00) saturate(0.86)" data-image="./pitch-assets/pulsepath-intake-panel.svg" data-scene="hero">
+            <div class="max-w-2xl inactive-step step-content">
                 <h1 class="text-6xl font-800 mb-6 tracking-tight">The City is <span class="gradient-text">Breathing.</span></h1>
                 <p class="text-xl text-gray-400 leading-relaxed">Most maps tell you where things are. <br><span class="text-white font-semibold">PulsePath</span> tells you how the city is moving.</p>
                 <div class="mt-8 flex gap-4">
                     <span class="px-3 py-1 text-xs border border-white/20 rounded-full">UW Data Science</span>
                     <span class="px-3 py-1 text-xs border border-white/20 rounded-full">ArcGIS Maps SDK</span>
                 </div>
+                <div class="mt-6 grid sm:grid-cols-3 gap-3 text-xs text-slate-300">
+                    <div class="glass rounded-xl p-3"><span class="block text-white font-semibold mb-1">Input</span> Conversational criteria intake</div>
+                    <div class="glass rounded-xl p-3"><span class="block text-white font-semibold mb-1">Engine</span> Geospatial scoring + ranking</div>
+                    <div class="glass rounded-xl p-3"><span class="block text-white font-semibold mb-1">Output</span> Actionable neighborhood choices</div>
+                </div>
             </div>
         </section>
 
-        <section class="step" data-bg="brightness(0.3) hue-rotate(180deg)">
-            <div class="max-w-xl inactive-step glass p-8 rounded-2xl">
+        <section class="step" data-bg="brightness(0.58) contrast(1.04) saturate(0.9) hue-rotate(180deg)" data-image="./pitch-assets/map-diagram-transit.svg" data-scene="dead-data">
+            <div class="max-w-xl inactive-step step-content">
                 <h2 class="text-3xl font-bold mb-4">The "Dead Data" Gap</h2>
                 <p class="text-gray-300 mb-4">Urban data is currently trapped in siloed spreadsheets. By the time a business sees it, the opportunity has passed.</p>
                 <p class="text-white font-semibold italic text-lg">"Static maps can't drive an instant economy."</p>
+                <ul class="mt-5 space-y-2 text-sm text-gray-300">
+                    <li>• Fragmented inputs: transit, housing, and demand signals rarely align in one view.</li>
+                    <li>• Slow analysis cycles: traditional workflows miss short-lived opportunity windows.</li>
+                    <li>• Decision friction: teams cannot quickly move from insight → action.</li>
+                </ul>
             </div>
         </section>
 
-        <section class="step" data-bg="brightness(0.6) saturate(1.5)">
-            <div class="max-w-xl inactive-step">
+        <section class="step" data-bg="brightness(0.62) contrast(1.02) saturate(0.92)" data-image="./pitch-assets/pulsepath-dashboard-map.svg" data-scene="hub-map">
+            <div class="max-w-xl inactive-step step-content">
                 <h2 class="text-3xl font-bold mb-4">PulsePath Seattle Hub</h2>
                 <p class="text-gray-300 mb-6">A real-time Decision Support System (DSS) using <span class="highlight">SDOT</span> and <span class="highlight">King County Metro</span> feeds to quantify urban resilience and activity peaks.</p>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="glass p-4 rounded-xl text-sm"><span class="block font-bold mb-1">Logic</span> criteriaScoring.ts</div>
                     <div class="glass p-4 rounded-xl text-sm"><span class="block font-bold mb-1">Sync</span> ArcGIS Feature Layers</div>
                 </div>
+                <div class="mt-5 text-sm text-slate-300 leading-relaxed">
+                    PulsePath converts user intent into weighted criteria, scores neighborhoods across mobility,
+                    affordability, wellness, and safety, then visualizes ranked options on an interactive map.
+                </div>
             </div>
         </section>
 
-        <section class="step" data-bg="brightness(0.7) contrast(1.2)">
-            <div class="max-w-xl inactive-step glass p-8 rounded-2xl border-blue-500/30">
+        <section class="step" data-bg="brightness(0.60) contrast(1.06) saturate(0.9)" data-image="./pitch-assets/map-diagram-zillow-flow.svg" data-scene="action">
+            <div class="max-w-xl inactive-step step-content border border-blue-500/30">
                 <div class="flex items-center gap-3 mb-4">
                     <div class="w-10 h-10 bg-blue-600 rounded flex items-center justify-center font-bold italic">Z</div>
                     <h2 class="text-3xl font-bold">Analysis to Action</h2>
@@ -69,24 +93,30 @@
                     <li>• Select high-potential housing parcels.</li>
                     <li>• <span class="text-blue-400">Direct 2-way link to Zillow listings.</span></li>
                 </ul>
+                <div class="mt-5 text-xs uppercase tracking-widest text-slate-400">Decision latency reduced from research hours to guided minutes</div>
             </div>
         </section>
 
-        <section class="step" data-bg="grayscale(0) brightness(0.4)">
-            <div class="max-w-xl inactive-step">
+        <section class="step" data-bg="brightness(0.56) contrast(1.03) saturate(0.88)" data-image="./pitch-assets/map-diagram-global.svg" data-scene="global">
+            <div class="max-w-xl inactive-step step-content">
                 <h2 class="text-3xl font-bold mb-4 italic">Built for the Global Market</h2>
                 <p class="text-gray-300 mb-6">PulsePath is city-agnostic. Our <strong>Modular Data Ingestion</strong> allows us to swap ArcGIS Feature URLs to scale from Seattle to NYC, London, or Tokyo in minutes.</p>
                 <div class="bg-white/5 p-6 border-l-4 border-blue-500">
                     <p class="text-sm font-mono tracking-tighter">config.setMarket('NYC_DOT_FEED'); <br> intelligence.recalibrate();</p>
                 </div>
+                <div class="mt-5 grid grid-cols-2 gap-3 text-xs text-slate-300">
+                    <div class="glass rounded-lg p-3"><span class="block text-white mb-1">Reusable Model</span>Same criteria engine, new city inputs.</div>
+                    <div class="glass rounded-lg p-3"><span class="block text-white mb-1">Fast Deployment</span>Market onboarding via source mapping.</div>
+                </div>
             </div>
         </section>
 
-        <section class="step">
-            <div class="max-w-2xl inactive-step text-center mx-auto">
+        <section class="step" data-bg="brightness(0.60) contrast(1.03) saturate(0.9)" data-image="./pitch-assets/pulsepath-finale-network.svg" data-scene="finale">
+            <div class="max-w-2xl inactive-step text-center mx-auto step-content">
                 <h2 class="text-5xl font-800 mb-8 gradient-text">Gesture + PulsePath</h2>
                 <p class="text-xl text-gray-300 mb-10">Predicting "Gifting Hotspots" before they peak. Synchronizing instant commerce with the physical rhythm of the city.</p>
-                <a href="https://github.com/AjaxKronus" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 transition-colors rounded-full font-bold uppercase tracking-widest text-sm">View Prototype</a>
+                <div class="text-sm text-slate-300 mb-6">Live prototype: conversational criteria intake, map-first recommendations, and resilience-based ranking.</div>
+                <a href="/" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 transition-colors rounded-full font-bold uppercase tracking-widest text-sm">Open PulsePath Website</a>
                 <div class="mt-12 text-gray-500 text-sm">
                     Amartya Chaube | UW Geography & Data Science | Dec 2026
                 </div>
@@ -101,6 +131,50 @@
         const visualTarget = document.getElementById('visual-target');
         const statusText = document.getElementById('map-status');
 
+        const APP_BACKGROUNDS = {
+            hero: `
+                radial-gradient(circle at 72% 26%, rgba(5, 150, 105, 0.28) 0%, rgba(5, 150, 105, 0) 38%),
+                linear-gradient(135deg, hsl(195 80% 25%), hsl(160 55% 35%))
+            `,
+            "dead-data": `
+                repeating-linear-gradient(90deg, rgba(148,163,184,0.08) 0 1px, transparent 1px 110px),
+                repeating-linear-gradient(0deg, rgba(148,163,184,0.06) 0 1px, transparent 1px 110px),
+                linear-gradient(130deg, rgba(30,41,59,0.9), rgba(2,6,23,0.95))
+            `,
+            "hub-map": `
+                radial-gradient(circle at 66% 36%, rgba(56,189,248,0.25) 0%, rgba(56,189,248,0) 36%),
+                linear-gradient(115deg, rgba(8,47,73,0.95), rgba(2,6,23,0.95))
+            `,
+            action: `
+                linear-gradient(120deg, rgba(30,58,138,0.88), rgba(17,24,39,0.96)),
+                linear-gradient(0deg, rgba(59,130,246,0.12), rgba(59,130,246,0.12))
+            `,
+            global: `
+                radial-gradient(circle at 70% 45%, rgba(37,99,235,0.34) 0%, rgba(37,99,235,0) 34%),
+                linear-gradient(140deg, rgba(15,23,42,0.97), rgba(2,6,23,0.99))
+            `,
+            finale: `
+                radial-gradient(circle at 50% 50%, rgba(96,165,250,0.18) 0%, rgba(96,165,250,0) 38%),
+                linear-gradient(135deg, rgba(17,24,39,0.95), rgba(2,6,23,0.98))
+            `,
+        };
+
+        function setVisualForSection(section) {
+            const bgStyle = section.getAttribute('data-bg');
+            const scene = section.getAttribute('data-scene');
+            const image = section.getAttribute('data-image');
+
+            if (bgStyle) visualTarget.style.filter = bgStyle;
+            if (image) {
+                visualTarget.style.backgroundImage = `url('${image}')`;
+            } else if (scene && APP_BACKGROUNDS[scene]) {
+                visualTarget.style.backgroundImage = APP_BACKGROUNDS[scene];
+            }
+
+            const stepTitle = section.querySelector('h1, h2').innerText;
+            statusText.innerText = `Layer: ${stepTitle.substring(0, 20)}...`;
+        }
+
         const observerOptions = {
             threshold: 0.5
         };
@@ -111,14 +185,9 @@
                     // Animate Text
                     entry.target.firstElementChild.classList.remove('inactive-step');
                     entry.target.firstElementChild.classList.add('active-step');
-                    
-                    // Change Background Visual State
-                    const bgStyle = entry.target.getAttribute('data-bg');
-                    if(bgStyle) visualTarget.style.filter = bgStyle;
 
-                    // Update "Map" Status
-                    const stepTitle = entry.target.querySelector('h1, h2').innerText;
-                    statusText.innerText = `Layer: ${stepTitle.substring(0, 20)}...`;
+                    // Change Background Visual State
+                    setVisualForSection(entry.target);
                 } else {
                     entry.target.firstElementChild.classList.add('inactive-step');
                     entry.target.firstElementChild.classList.remove('active-step');
@@ -127,6 +196,7 @@
         }, observerOptions);
 
         sections.forEach(section => observer.observe(section));
+        if (sections.length) setVisualForSection(sections[0]);
     </script>
 </body>
 </html>
