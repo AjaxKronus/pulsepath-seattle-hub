@@ -1,0 +1,15 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#030712"/>
+  <rect x="70" y="80" width="1010" height="740" rx="24" fill="#0B1220" stroke="#334155"/>
+  <rect x="1120" y="80" width="410" height="740" rx="24" fill="#111827" stroke="#334155"/>
+  <path d="M120 110C190 280 200 490 170 770" stroke="#0EA5E9" stroke-width="30" opacity="0.22" stroke-linecap="round"/>
+  <path d="M800 130C760 310 770 540 850 760" stroke="#38BDF8" stroke-width="28" opacity="0.18" stroke-linecap="round"/>
+  <ellipse cx="520" cy="370" rx="82" ry="48" fill="#67E8F9" opacity="0.20"/>
+  <circle cx="670" cy="290" r="14" fill="#22C55E"/><text x="690" y="296" fill="#E2E8F0" font-size="16" font-family="Inter, Arial">Wallingford 84</text>
+  <circle cx="620" cy="380" r="14" fill="#EAB308"/><text x="640" y="386" fill="#E2E8F0" font-size="16" font-family="Inter, Arial">Fremont 66</text>
+  <circle cx="740" cy="450" r="14" fill="#22C55E"/><text x="760" y="456" fill="#E2E8F0" font-size="16" font-family="Inter, Arial">Capitol Hill 78</text>
+  <circle cx="560" cy="490" r="14" fill="#EF4444"/><text x="580" y="496" fill="#E2E8F0" font-size="16" font-family="Inter, Arial">West Seattle 41</text>
+  <rect x="1150" y="125" width="350" height="110" rx="16" fill="#1E293B"/><text x="1180" y="170" fill="#E5E7EB" font-size="20" font-family="Inter, Arial">#1 Wallingford</text><text x="1180" y="205" fill="#93C5FD" font-size="16" font-family="Inter, Arial">Score: 84 · Walk + Parks</text>
+  <rect x="1150" y="255" width="350" height="110" rx="16" fill="#1E293B"/><text x="1180" y="300" fill="#E5E7EB" font-size="20" font-family="Inter, Arial">#2 Capitol Hill</text><text x="1180" y="335" fill="#93C5FD" font-size="16" font-family="Inter, Arial">Score: 78 · Transit + Social</text>
+  <rect x="1150" y="385" width="350" height="110" rx="16" fill="#1E293B"/><text x="1180" y="430" fill="#E5E7EB" font-size="20" font-family="Inter, Arial">#3 U-District</text><text x="1180" y="465" fill="#93C5FD" font-size="16" font-family="Inter, Arial">Score: 74 · UW commute</text>
+</svg>
