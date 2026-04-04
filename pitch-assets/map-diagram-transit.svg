@@ -1,0 +1,16 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#020617"/>
+  <g opacity="0.25" stroke="#334155" stroke-width="1">
+    <path d="M0 150H1600"/><path d="M0 300H1600"/><path d="M0 450H1600"/><path d="M0 600H1600"/><path d="M0 750H1600"/>
+    <path d="M200 0V900"/><path d="M400 0V900"/><path d="M600 0V900"/><path d="M800 0V900"/><path d="M1000 0V900"/><path d="M1200 0V900"/><path d="M1400 0V900"/>
+  </g>
+  <path d="M320 680L510 520L730 430L910 320L1150 240L1320 180" stroke="#22D3EE" stroke-width="10" stroke-linecap="round"/>
+  <path d="M250 240L510 360L730 430L980 510L1240 640" stroke="#60A5FA" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="730" cy="430" r="16" fill="#0F172A" stroke="#38BDF8" stroke-width="4"/>
+  <circle cx="910" cy="320" r="11" fill="#22C55E"/>
+  <circle cx="510" cy="520" r="11" fill="#EAB308"/>
+  <circle cx="1150" cy="240" r="11" fill="#22C55E"/>
+  <rect x="90" y="90" width="520" height="140" rx="18" fill="#0F172A" stroke="#334155"/>
+  <text x="130" y="150" fill="#E2E8F0" font-size="30" font-family="Inter, Arial">Transit Pulse Diagram</text>
+  <text x="130" y="190" fill="#93C5FD" font-size="20" font-family="Inter, Arial">Light Rail + Bus overlap identifies high-opportunity nodes</text>
+</svg>
