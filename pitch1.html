@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulsePath | Confident Housing Decisions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: white; scroll-behavior: smooth; }
+        .step { min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; padding: 0 10%; position: relative; z-index: 10; }
+        .map-bg { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; z-index: 1; transition: all 0.8s ease-in-out; background-size: cover; background-position: center; filter: brightness(0.4); }
+        .step-content { background: rgba(2, 6, 23, 0.7); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1rem; padding: 2.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
+        .active-step { opacity: 1; transform: translateY(0); transition: all 0.6s ease-out; }
+        .inactive-step { opacity: 0; transform: translateY(30px); }
+        .highlight { color: #3b82f6; }
+        .gradient-text { background: linear-gradient(90deg, #60a5fa, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body>
+
+    <div id="visual-target" class="map-bg"></div>
+
+    <main class="relative">
+
+        <section class="step" data-scene="hero">
+            <div class="max-w-2xl inactive-step step-content">
+                <h1 class="text-6xl font-800 mb-6 tracking-tight">PulsePath</h1>
+                <p class="text-xl text-gray-300 leading-relaxed">From a fragmented housing search to a product, a demo, and a <span class="highlight">credible path to scale.</span></p>
+                <div class="mt-8 flex gap-4">
+                    <span class="px-3 py-1 text-xs border border-white/20 rounded-full">AI-Assisted Housing Decision Platform</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="founder">
+            <div class="max-w-xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-blue-400 mb-2">Introduction</h2>
+                <h3 class="text-3xl font-bold mb-4">Amartya Chaube</h3>
+                <p class="text-gray-400 mb-6">University of Washington · Data Science and GIS</p>
+                <p class="text-gray-200 mb-4">Helping the user decide where to live, not just search what is available.</p>
+                <div class="glass p-4 rounded-xl text-sm border-l-4 border-blue-500">
+                    "AI can make search more personal and explainable when paired with GIS and context."
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="problem">
+            <div class="max-w-xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-red-400 mb-2">Problem</h2>
+                <h3 class="text-3xl font-bold mb-4">What is broken today?</h3>
+                <p class="text-gray-300 mb-6 font-semibold italic text-lg">"The issue is not a lack of listings. The issue is a lack of decision support."</p>
+                <ul class="space-y-4 text-sm text-gray-300">
+                    <li>• <strong class="text-white">Fragmented Inputs:</strong> Users piece together commute, safety, and amenities across disconnected tools.</li>
+                    <li>• <strong class="text-white">Generic Ranking:</strong> Platforms optimize for popular inventory, not the specific user.</li>
+                    <li>• <strong class="text-white">Lifestyle Blind Spots:</strong> You cannot search by daily routine or transit habits.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="step" data-scene="solution">
+            <div class="max-w-xl inactive-step step-content border-l-4 border-blue-500">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-blue-400 mb-2">Solution</h2>
+                <h3 class="text-3xl font-bold mb-4">What PulsePath Is</h3>
+                <p class="text-gray-200 mb-6 leading-relaxed">A conversational platform that turns priorities into clear neighborhood recommendations.</p>
+                <div class="grid grid-cols-2 gap-4 text-xs text-gray-300">
+                    <div class="p-3 glass rounded-lg"><strong>Tailored to lifestyle</strong>, not just price.</div>
+                    <div class="p-3 glass rounded-lg"><strong>Context-aware</strong> and adaptive.</div>
+                    <div class="p-3 glass rounded-lg"><strong>Action-oriented</strong> handoffs.</div>
+                    <div class="p-3 glass rounded-lg"><strong>Explainable</strong> decision paths.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="demo">
+            <div class="max-w-xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-green-400 mb-2">Demo Flow</h2>
+                <h3 class="text-3xl font-bold mb-6">A Guided Narrowing Process</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs">1</span>
+                        <p>User describes what matters.</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs">2</span>
+                        <p>PulsePath translates intent into criteria.</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs">3</span>
+                        <p>Locations are scored and compared.</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs">4</span>
+                        <p>User refines the ask through chat.</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm font-bold text-blue-400">
+                        <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs text-white">5</span>
+                        <p>Move into property exploration.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="growth">
+            <div class="max-w-4xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-purple-400 mb-2">Growth Potential</h2>
+                <h3 class="text-3xl font-bold mb-4">Why this can scale</h3>
+                <p class="text-gray-400 mb-8">Start with a narrow transition market, then expand into a broader life-stage product.</p>
+                
+                <div class="grid grid-cols-3 gap-4 mb-10">
+                    <div class="glass p-5 rounded-xl border border-white/5">
+                        <h4 class="text-white font-bold mb-3 text-sm">Focused launch wedge </h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">Incoming students and users moving from dorm-style or temporary housing into off-campus living.</p>
+                    </div>
+                    <div class="glass p-5 rounded-xl border border-white/5">
+                        <h4 class="text-white font-bold mb-3 text-sm">Initial geographies </h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">University-centered ecosystems such as Seattle and the SF Bay Area, where housing costs and transition friction are both high.</p>
+                    </div>
+                    <div class="glass p-5 rounded-xl border border-white/5">
+                        <h4 class="text-white font-bold mb-3 text-sm">Expansion path </h4>
+                        <p class="text-xs text-gray-400 leading-relaxed">Grow from campus-adjacent users into broader early-career and urban renter segments facing the same decision problem.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="bg-white/5 p-4 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-400">20.1M </div>
+                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wide">Students enrolled in U.S. postsecondary in fall 2024 </p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-400">68.9M </div>
+                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wide">U.S. adults ages 20–34 in 2024 </p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-400">57% </div>
+                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wide">Of consumer units age 25–34 are renters </p>
+                    </div>
+                    <div class="bg-white/5 p-4 rounded-lg">
+                        <div class="text-3xl font-bold text-blue-400">52.9% </div>
+                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wide">Of age 25–34 spending goes to housing + transportation </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="value">
+            <div class="max-w-xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-yellow-400 mb-2">Value First</h2>
+                <h3 class="text-3xl font-bold mb-4">Revenue follows usefulness</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="glass p-4 rounded-xl text-xs">
+                        <strong class="block text-white mb-2">Qualified Leads</strong>
+                        Direct high-intent traffic to property portals.
+                    </div>
+                    <div class="glass p-4 rounded-xl text-xs">
+                        <strong class="block text-white mb-2">Aggregated Insight</strong>
+                        Identify demand clusters and shifting interest.
+                    </div>
+                    <div class="glass p-4 rounded-xl text-xs">
+                        <strong class="block text-white mb-2">Sponsored Placement</strong>
+                        Relevant visibility without breaking core trust.
+                    </div>
+                    <div class="glass p-4 rounded-xl text-xs">
+                        <strong class="block text-white mb-2">Premium Tools</strong>
+                        Deeper scoring layers for complex moves.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="architecture">
+            <div class="max-w-xl inactive-step step-content">
+                <h2 class="text-sm font-mono uppercase tracking-widest text-blue-400 mb-2">High-Level Architecture</h2>
+                <h3 class="text-3xl font-bold mb-6">Interpret. Score. Act.</h3>
+                <div class="space-y-2 font-mono text-xs">
+                    <div class="p-3 bg-white/5 rounded border border-white/10 flex justify-between">
+                        <span>Input</span> <span class="text-blue-400">User Ask</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/10 flex justify-between">
+                        <span>Interpretation</span> <span class="text-blue-400">Intent → Criteria</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/10 flex justify-between">
+                        <span>Engine</span> <span class="text-blue-400">Evaluate Fit</span>
+                    </div>
+                    <div class="p-3 bg-white/5 rounded border border-white/10 flex justify-between">
+                        <span>Rec. Layer</span> <span class="text-blue-400">Neighborhood Choice</span>
+                    </div>
+                    <div class="p-3 bg-blue-500/20 rounded border border-blue-500/50 flex justify-between">
+                        <span>Portal Handoff</span> <span class="text-white">Property Details</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="step" data-scene="finale">
+            <div class="max-w-2xl inactive-step text-center mx-auto step-content">
+                <h2 class="text-5xl font-800 mb-8 gradient-text">Questions?</h2>
+                <p class="text-xl text-gray-300 mb-10">PulsePath helps the user move from a fragmented search to a more personalized and confident decision-making experience.</p>
+                <div class="grid grid-cols-3 gap-4 text-xs text-gray-400 mb-12">
+                    <div class="glass p-4 rounded-lg">Solves real pain points</div>
+                    <div class="glass p-4 rounded-lg">Demo-ready workflow</div>
+                    <div class="glass p-4 rounded-lg">Built to scale</div>
+                </div>
+                <div class="text-gray-500 text-sm">Amartya Chaube | UW Data Science & GIS</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const sections = document.querySelectorAll('.step');
+        const visualTarget = document.getElementById('visual-target');
+
+        const SCENE_STYLES = {
+            hero: "url('./pitch-assets/pulsepath-intake-panel.svg')",
+            founder: "url('./pitch-assets/pulsepath-dashboard-map.svg')",
+            problem: "url('./pitch-assets/map-diagram-transit.svg')",
+            solution: "url('./pitch-assets/pulsepath-dashboard-map.svg')",
+            demo: "url('./pitch-assets/map-diagram-zillow-flow.svg')",
+            growth: "url('./pitch-assets/map-diagram-global.svg')",
+            value: "url('./pitch-assets/map-diagram-zillow-flow.svg')",
+            architecture: "url('./pitch-assets/pulsepath-finale-network.svg')",
+            finale: "url('./pitch-assets/pulsepath-finale-network.svg')"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.firstElementChild.classList.remove('inactive-step');
+                    entry.target.firstElementChild.classList.add('active-step');
+                    const scene = entry.target.getAttribute('data-scene');
+                    if (SCENE_STYLES[scene]) {
+                        visualTarget.style.backgroundImage = SCENE_STYLES[scene];
+                    }
+                } else {
+                    entry.target.firstElementChild.classList.add('inactive-step');
+                    entry.target.firstElementChild.classList.remove('active-step');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
