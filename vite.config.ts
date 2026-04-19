@@ -4,10 +4,11 @@ import path from "path";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
-export default defineConfig(() => ({
+export default defineConfig({
   server: {
+    // use PORT env var if set, otherwise fallback to 3000
+    port: Number(process.env.PORT) || 3000,
     host: "::",
-    port: 8080,
     hmr: {
       overlay: false,
     },
@@ -62,4 +63,4 @@ export default defineConfig(() => ({
       },
     },
   },
-}));
+});
